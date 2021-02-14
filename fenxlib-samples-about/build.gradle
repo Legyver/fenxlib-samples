@@ -6,11 +6,9 @@ plugins {
 ext {
     //legyver dependencies
     legyverCoreVersion = '1.1.1.1'
-    legyverUtilsVersion = '2.0.0.0-alpha-5'
-    legyverFenxlibVersion = '2.0.0.0-alpha-5'
+    legyverFenxlibVersion = '2.0.0.0-rc1'
     //apache dependencies
     commonsLogVersion = '2.13.3'
-    commonsLangVersion = '3.11'
 }
 
 group 'com.legyver'
@@ -27,7 +25,6 @@ dependencies {
     //about
     implementation group: 'com.legyver', name: 'fenxlib.widgets.about', version: legyverFenxlibVersion
 
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLangVersion
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: commonsLogVersion
 
 }
