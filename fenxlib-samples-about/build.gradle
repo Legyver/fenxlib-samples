@@ -5,8 +5,7 @@ plugins {
 
 ext {
     //legyver dependencies
-    legyverCoreVersion = '1.1.1.1'
-    legyverFenxlibVersion = '2.0.0.0-rc1'
+    legyverFenxlibVersion = '2.0.0.0-rc2'
     //apache dependencies
     commonsLogVersion = '2.13.3'
 }
@@ -20,8 +19,6 @@ repositories {
 }
 
 dependencies {
-    //exception
-    implementation group: 'com.legyver', name: 'core', version: legyverCoreVersion
     //about
     implementation group: 'com.legyver', name: 'fenxlib.widgets.about', version: legyverFenxlibVersion
 

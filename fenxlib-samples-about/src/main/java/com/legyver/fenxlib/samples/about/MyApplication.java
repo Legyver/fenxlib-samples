@@ -1,8 +1,9 @@
 package com.legyver.fenxlib.samples.about;
 
+import com.legyver.core.function.ThrowingSupplier;
 import com.legyver.fenxlib.core.api.locator.query.ComponentQuery;
 import com.legyver.fenxlib.core.api.uimodel.IUiModel;
-import com.legyver.fenxlib.core.impl.config.GsonApplicationConfig;
+import com.legyver.fenxlib.core.impl.config.JsonApplicationConfig;
 import com.legyver.fenxlib.core.impl.config.options.ApplicationOptions;
 import com.legyver.fenxlib.core.impl.factory.*;
 import com.legyver.fenxlib.core.impl.factory.menu.*;
@@ -24,7 +25,7 @@ public class MyApplication extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		new ApplicationOptions.AutoStartBuilder<>()
 				.appName("FenxlibAboutPageDemo")
-				.customAppConfigInstantiator(map -> new GsonApplicationConfig(map))
+				.customAppConfigInstantiator(map -> new JsonApplicationConfig(map))
 				.uiModel(new ApplicationUIModel())
 				.build();
 
@@ -40,7 +41,7 @@ public class MyApplication extends Application {
 		SceneFactory sceneFactory = new SceneFactory(primaryStage, 600, 675, MyApplication.class.getResource("application.css"));
 
 		//where to display the popup over
-		Supplier<StackPane> centerContentReference = () -> {
+		ThrowingSupplier<StackPane> centerContentReference = () -> {
 			Optional<StackPane> center = new ComponentQuery.QueryBuilder()
 					.inRegion(BorderPaneInitializationOptions.REGION_CENTER)
 					.type(StackPane.class).execute();
