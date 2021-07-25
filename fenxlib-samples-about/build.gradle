@@ -5,7 +5,7 @@ plugins {
 
 ext {
     //legyver dependencies
-    legyverFenxlibVersion = '2.0.0.0-rc3'
+    legyverFenxlibVersion = '2.0.0.0'
     //apache dependencies
     commonsLogVersion = '2.13.3'
     commonsLangVersion = '3.11'
