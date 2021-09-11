@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     //about
-    implementation group: 'com.legyver', name: 'fenxlib.widgets.about', version: legyverFenxlibVersion
+    implementation group: 'com.legyver', name: 'fenxlib.widgets.filetree', version: legyverFenxlibVersion
 
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLangVersion
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: commonsLogVersion
@@ -29,8 +29,8 @@ dependencies {
 }
 
 application {
-    mainModule = 'com.legyver.fenxlib.samples.about' // name defined in module-info.java
-    mainClass = 'com.legyver.fenxlib.samples.about.MyApplication'
+    mainModule = 'com.legyver.fenxlib.samples.filetree' // name defined in module-info.java
+    mainClass = 'com.legyver.fenxlib.samples.filetree.MyApplication'
 }
 
 run {
