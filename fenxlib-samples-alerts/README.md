@@ -1,17 +1,25 @@
-# AboutPage Sample
+# Snackbar Sample
 ## Usage
 ```java
-//Any files added via import or filesystem watches on added directories will be added here
-        FileTreeRegistry fileTreeRegistry = new FileTreeRegistry();
+//the alert will be displayed over this area
+Supplier<StackPane> centerContentReference = () -> {
+    Optional<StackPane> center = new ComponentQuery.QueryBuilder()
+        .inRegion(BorderPaneInitializationOptions.REGION_CENTER)
+        .type(StackPane.class).execute();
+    return center.get();
+};
 
-        //while watching file system, only auto-add folders and xml files
-        FileWatchHandler fileWatchHandler = new FileWatchHandler.Builder()
-                .fileFilter(new SuffixFileFilter(".xml"))
-                .build(fileTreeRegistry);
-
-        BorderPaneInitializationOptions options = new BorderPaneInitializationOptions.Builder()
-              ...
-                .left(new RegionInitializationOptions.SideBuilder("Files")
-                      .factory(new StackPaneRegionFactory(false, new SimpleFileExplorerFactory(fileTreeRegistry, fileWatchHandler))))
-                .build();
+AlertGeneratingForm alertGeneratingForm = new AlertGeneratingForm();
+alertGeneratingForm.valueProperty().addListener((observable, oldValue, newValue) -> {
+    if (NumberUtils.isDigits(newValue)) {
+        //show info message for 1 second
+        ApplicationContext.infoAlert(centerContentReference.get(), "OK", "Number entered: " + newValue, 1000L);
+    } else if (NumberUtils.isParsable(newValue)) {
+        //show warning message for 2 seconds
+        ApplicationContext.warningAlert(centerContentReference.get(), "Warning", "Number contains a decimal: " + newValue, 2000L);
+    } else {
+        //show error message.  No timeout.  Message closes when user clicks away.
+        ApplicationContext.errorAlert(centerContentReference.get(), "Bad value", "Value is not a number: " + newValue);
+    }
+});
 ```
