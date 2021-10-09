@@ -1,4 +1,5 @@
 # Snackbar Sample
+
 ## Usage
 ```java
 //the alert will be displayed over this area

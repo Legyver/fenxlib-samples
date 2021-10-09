@@ -9,15 +9,11 @@ import javafx.scene.layout.HBox;
 public class AlertGeneratingFormSkin extends SkinBase<AlertGeneratingForm> {
 
     private final HBox hBox;
-    /**
-     * Constructor for all SkinBase instances.
-     *
-     * @param control The control for which this Skin should attach to.
-     */
+
     protected AlertGeneratingFormSkin(AlertGeneratingForm control) {
         super(control);
         hBox = new HBox();
-        hBox.getChildren().add(new Label("Enter a positive number"));
+        hBox.getChildren().add(new Label("Enter an integer"));
 
         TextField textField = new TextField();
         hBox.getChildren().add(textField);
