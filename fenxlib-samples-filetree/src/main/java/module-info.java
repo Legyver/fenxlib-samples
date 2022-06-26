@@ -7,6 +7,8 @@ module com.legyver.fenxlib.samples.filetree {
 	requires com.legyver.fenxlib.config.json;
 	requires javafx.graphics;
 	requires javafx.controls;
+	requires org.scenicview.scenicview;
+	requires org.apache.logging.log4j;
 
 	exports com.legyver.fenxlib.samples.filetree to javafx.graphics;
 	opens com.legyver.fenxlib.samples.filetree;

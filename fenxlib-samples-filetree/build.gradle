@@ -30,6 +30,7 @@ dependencies {
 
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLangVersion
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: commonsLogVersion
+    implementation files('../libs/scenicview.jar')
 
 }
 
@@ -40,5 +41,5 @@ application {
 
 javafx {
     version = '17.0.2'
-    modules = ['javafx.controls', 'javafx.media', 'javafx.swing', 'javafx.web']
+    modules = ['javafx.controls', 'javafx.media', 'javafx.swing', 'javafx.web', 'javafx.fxml']
 }

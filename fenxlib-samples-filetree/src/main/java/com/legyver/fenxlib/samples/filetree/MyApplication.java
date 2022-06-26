@@ -20,14 +20,19 @@ import com.legyver.fenxlib.widgets.filetree.factory.SimpleFileExplorerOptions;
 import com.legyver.fenxlib.widgets.filetree.registry.FileTreeRegistry;
 import com.legyver.fenxlib.widgets.filetree.scan.FileWatchHandler;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.scenicview.ScenicView;
 
 public class MyApplication extends Application {
+    private static Logger logger;
     @Override
     public void start(Stage primaryStage) throws Exception {
         ApplicationOptions applicationOptions = new ApplicationOptions.Builder<>()
@@ -59,7 +64,9 @@ public class MyApplication extends Application {
         SimpleFileExplorer simpleFileExplorer = new SimpleFileExplorerFactory().makeNode(new DefaultLocationContext("File Tree"), simpleFileExplorerOptions);
 
         StackPane stackPane = ControlsFactory.make(StackPane.class);
-        Text text = ControlsFactory.make(Text.class, new TextOptions());
+        Text text = ControlsFactory.make(Text.class, new TextOptions()
+                .text("Right click on file explorer and choose 'Add' to add a directory"));
+        stackPane.getChildren().add(text);
 
         BorderPaneApplicationLayout borderPaneApplicationLayout = new BorderPaneApplicationLayout.BorderPaneBuilder()
                 .title("Fenxlib File Tree Demo")
@@ -67,10 +74,15 @@ public class MyApplication extends Application {
                 .height(800.0)
                 .menuBar(menuBar())
                 .leftRegionOptions(new LeftRegionOptions(simpleFileExplorer))
-                .centerRegionOptions(new CenterRegionOptions(text))
+                .centerRegionOptions(new CenterRegionOptions(stackPane))
                 .build();
-        sceneFactory.makeScene(borderPaneApplicationLayout);
+        Scene scene = sceneFactory.makeScene(borderPaneApplicationLayout);
+        logger = LogManager.getLogger(MyApplication.class);
+        logger.info("Application started.  Showing now.");
         primaryStage.show();
+        logger.info("Application started.  Launching scenic view.");
+
+//        ScenicView.show(scene);
     }
 
     private MenuBar menuBar() throws CoreException {

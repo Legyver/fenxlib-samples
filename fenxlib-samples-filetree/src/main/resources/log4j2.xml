@@ -32,7 +32,7 @@
         </appender>
     </appenders>
     <Loggers>
-        <root level="ERROR">
+        <root level="INFO">
             <appender-ref ref="AsyncFile" />
         </root>
         <Logger name="com.legyver.fenxlib.widgets.filetree.task" level="DEBUG">
