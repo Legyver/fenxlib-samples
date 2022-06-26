@@ -1,25 +1,36 @@
 package com.legyver.fenxlib.samples.filetree;
 
-import com.legyver.fenxlib.core.api.uimodel.IUiModel;
-import com.legyver.fenxlib.core.impl.config.JsonApplicationConfig;
-import com.legyver.fenxlib.core.impl.config.options.ApplicationOptions;
-import com.legyver.fenxlib.core.impl.factory.*;
-import com.legyver.fenxlib.core.impl.factory.menu.*;
-import com.legyver.fenxlib.core.impl.factory.options.BorderPaneInitializationOptions;
-import com.legyver.fenxlib.core.impl.factory.options.RegionInitializationOptions;
+import com.legyver.core.exception.CoreException;
+import com.legyver.fenxlib.api.config.options.ApplicationOptions;
+import com.legyver.fenxlib.api.locator.DefaultLocationContext;
+import com.legyver.fenxlib.api.uimodel.IUiModel;
+import com.legyver.fenxlib.config.json.JsonApplicationConfig;
+import com.legyver.fenxlib.core.controls.ControlsFactory;
+import com.legyver.fenxlib.core.controls.factory.SceneFactory;
+import com.legyver.fenxlib.core.layout.BorderPaneApplicationLayout;
+import com.legyver.fenxlib.core.layout.options.CenterRegionOptions;
+import com.legyver.fenxlib.core.layout.options.LeftRegionOptions;
+import com.legyver.fenxlib.core.menu.templates.MenuBuilder;
+import com.legyver.fenxlib.core.menu.templates.section.FileExitMenuSection;
+import com.legyver.fenxlib.core.scene.text.options.TextOptions;
 import com.legyver.fenxlib.extensions.tuktukfx.config.TaskExecutorShutdownApplicationLifecycleHook;
+import com.legyver.fenxlib.widgets.filetree.SimpleFileExplorer;
 import com.legyver.fenxlib.widgets.filetree.factory.SimpleFileExplorerFactory;
+import com.legyver.fenxlib.widgets.filetree.factory.SimpleFileExplorerOptions;
 import com.legyver.fenxlib.widgets.filetree.registry.FileTreeRegistry;
 import com.legyver.fenxlib.widgets.filetree.scan.FileWatchHandler;
 import javafx.application.Application;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 
 public class MyApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        new ApplicationOptions.AutoStartBuilder<>()
+        ApplicationOptions applicationOptions = new ApplicationOptions.Builder<>()
                 .appName("FenxlibFileTreeDemo")
                 .customAppConfigInstantiator(JsonApplicationConfig::new)
                 .uiModel(new ApplicationUIModel())
@@ -29,7 +40,9 @@ public class MyApplication extends Application {
                 .registerLifecycleHook(new TaskExecutorShutdownApplicationLifecycleHook())
                 .build();
 
-        SceneFactory sceneFactory = new SceneFactory(primaryStage, 600, 675, MyApplication.class.getResource("application.css"));
+        applicationOptions.startup(this, primaryStage);
+
+        SceneFactory sceneFactory = new SceneFactory(primaryStage, MyApplication.class.getResource("application.css"));
 
         //Any files added via import or filesystem watches on added directories will be added here
         FileTreeRegistry fileTreeRegistry = new FileTreeRegistry();
@@ -39,29 +52,37 @@ public class MyApplication extends Application {
                 .fileFilter(new SuffixFileFilter(".xml"))
                 .build(fileTreeRegistry);
 
-        BorderPaneInitializationOptions options = new BorderPaneInitializationOptions.Builder()
-                .center(new RegionInitializationOptions.Builder()
-                        //popup will display over this. See the centerContentReference Supplier above
-                        .factory(new StackPaneRegionFactory(true, new TextFactory("Right click on file explorer and choose 'Add' to add a directory")))
-                )
-                .top(new RegionInitializationOptions.Builder()
-                        .factory(new TopRegionFactory(
-                                new LeftMenuOptions(
-                                        new MenuFactory("File",
-                                                new ExitMenuItemFactory("Exit")
-                                        )
-                                ),
-                                new CenterOptions(new TextFieldFactory(false)),
-                                new RightMenuOptions())
-                        ))
-                .left(new RegionInitializationOptions.SideBuilder("Files")
-                        .factory(new StackPaneRegionFactory(false, new SimpleFileExplorerFactory(fileTreeRegistry, fileWatchHandler))))
-                .build();
+        SimpleFileExplorerOptions simpleFileExplorerOptions = new SimpleFileExplorerOptions()
+                .fileTreeRegistry(fileTreeRegistry)
+                .fileWatchHandler(fileWatchHandler);
 
-        BorderPane root = new BorderPaneFactory(options).makeBorderPane();
-        primaryStage.setScene(sceneFactory.makeScene(root));
-        primaryStage.setTitle("File Explorer Demo");
+        SimpleFileExplorer simpleFileExplorer = new SimpleFileExplorerFactory().makeNode(new DefaultLocationContext("File Tree"), simpleFileExplorerOptions);
+
+        StackPane stackPane = ControlsFactory.make(StackPane.class);
+        Text text = ControlsFactory.make(Text.class, new TextOptions());
+
+        BorderPaneApplicationLayout borderPaneApplicationLayout = new BorderPaneApplicationLayout.BorderPaneBuilder()
+                .title("Fenxlib File Tree Demo")
+                .width(600.0)
+                .height(800.0)
+                .menuBar(menuBar())
+                .leftRegionOptions(new LeftRegionOptions(simpleFileExplorer))
+                .centerRegionOptions(new CenterRegionOptions(text))
+                .build();
+        sceneFactory.makeScene(borderPaneApplicationLayout);
         primaryStage.show();
+    }
+
+    private MenuBar menuBar() throws CoreException {
+        MenuBar menuBar = new MenuBar();
+
+        Menu fileMenu = new MenuBuilder()
+                .name("File")
+                .menuSection(new FileExitMenuSection())
+                .build();
+        menuBar.getMenus().add(fileMenu);
+
+        return menuBar;
     }
 
     private static class ApplicationUIModel implements IUiModel {
