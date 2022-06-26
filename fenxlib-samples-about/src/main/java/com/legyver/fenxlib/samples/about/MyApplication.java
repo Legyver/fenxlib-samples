@@ -1,32 +1,50 @@
 package com.legyver.fenxlib.samples.about;
 
-import com.legyver.fenxlib.core.api.locator.query.ComponentQuery;
-import com.legyver.fenxlib.core.api.uimodel.IUiModel;
-import com.legyver.fenxlib.core.impl.config.JsonApplicationConfig;
-import com.legyver.fenxlib.core.impl.config.options.ApplicationOptions;
-import com.legyver.fenxlib.core.impl.factory.*;
-import com.legyver.fenxlib.core.impl.factory.menu.*;
-import com.legyver.fenxlib.core.impl.factory.options.BorderPaneInitializationOptions;
-import com.legyver.fenxlib.core.impl.factory.options.RegionInitializationOptions;
-import com.legyver.fenxlib.widgets.about.AboutMenuItemFactory;
+import com.legyver.core.exception.CoreException;
+import com.legyver.fenxlib.api.config.options.ApplicationOptions;
+import com.legyver.fenxlib.api.uimodel.IUiModel;
+import com.legyver.fenxlib.config.json.JsonApplicationConfig;
+import com.legyver.fenxlib.core.controls.factory.SceneFactory;
+import com.legyver.fenxlib.core.layout.BorderPaneApplicationLayout;
+import com.legyver.fenxlib.core.menu.templates.MenuBuilder;
+import com.legyver.fenxlib.core.menu.templates.section.FileExitMenuSection;
+import com.legyver.fenxlib.widgets.about.AboutMenuSection;
 import com.legyver.fenxlib.widgets.about.AboutPageOptions;
 import javafx.application.Application;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.stage.Stage;
 
-import java.util.Optional;
-import java.util.function.Supplier;
-
 public class MyApplication extends Application {
-
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		new ApplicationOptions.AutoStartBuilder<>()
+		ApplicationOptions applicationOptions = new ApplicationOptions.Builder<>()
 				.appName("FenxlibAboutPageDemo")
 				.customAppConfigInstantiator(map -> new JsonApplicationConfig(map))
 				.uiModel(new ApplicationUIModel())
 				.build();
+		applicationOptions.startup(this, primaryStage);
+
+		SceneFactory sceneFactory = new SceneFactory(primaryStage, MyApplication.class.getResource("application.css"));
+
+		BorderPaneApplicationLayout borderPaneApplicationLayout = new BorderPaneApplicationLayout.BorderPaneBuilder()
+				.title("Fenxlib About Page Demo")
+				.width(600.0)
+				.height(800.0)
+				.menuBar(menuBar())
+				.build();
+		sceneFactory.makeScene(borderPaneApplicationLayout);
+		primaryStage.show();
+	}
+
+	private MenuBar menuBar() throws CoreException {
+		MenuBar menuBar = new MenuBar();
+
+		Menu fileMenu = new MenuBuilder()
+				.name("File")
+				.menuSection(new FileExitMenuSection())
+				.build();
+		menuBar.getMenus().add(fileMenu);
 
 		AboutPageOptions aboutPageOptions = new AboutPageOptions.Builder(getClass())
 				.buildPropertiesFile("build.properties")
@@ -36,43 +54,18 @@ public class MyApplication extends Application {
 				.gist("More stuff about how great this app is.  I can go on about it for a really long time and the text will wrap around.")
 				.additionalInfo("be sure to tell your friends")
 				.build();
-
-		SceneFactory sceneFactory = new SceneFactory(primaryStage, 600, 675, MyApplication.class.getResource("application.css"));
-
-		//where to display the popup over
-		Supplier<StackPane> centerContentReference = () -> {
-			Optional<StackPane> center = new ComponentQuery.QueryBuilder()
-					.inRegion(BorderPaneInitializationOptions.REGION_CENTER)
-					.type(StackPane.class).execute();
-			return center.get();
-		};
-
-		BorderPaneInitializationOptions options = new BorderPaneInitializationOptions.Builder()
-				.center(new RegionInitializationOptions.Builder()
-						//popup will display over this. See the centerContentReference Supplier above
-						.factory(new StackPaneRegionFactory(true, new TextFactory("Hello World")))
-				)
-				.top(new RegionInitializationOptions.Builder()
-						.factory(new TopRegionFactory(
-								new LeftMenuOptions(
-										new MenuFactory("File",
-												new ExitMenuItemFactory("Exit")
-										)
-								),
-								new CenterOptions(new TextFieldFactory(false)),
-								new RightMenuOptions(
-										new MenuFactory("Help", new AboutMenuItemFactory("About", centerContentReference, aboutPageOptions))
-								))
-						))
+		Menu helpMenu = new MenuBuilder()
+				.name("Help")
+				.menuSection(new AboutMenuSection(aboutPageOptions))
 				.build();
+		menuBar.getMenus().add(helpMenu);
 
-		BorderPane root = new BorderPaneFactory(options).makeBorderPane();
-		primaryStage.setScene(sceneFactory.makeScene(root));
-		primaryStage.setTitle("About Page Demo");
-		primaryStage.show();
+		return menuBar;
 	}
 
 	private static class ApplicationUIModel implements IUiModel {
 
 	}
+
+
 }

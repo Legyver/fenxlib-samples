@@ -88,7 +88,7 @@ public class MyApplication  extends Application {
         primaryStage.setTitle("Alerts Demo");
         primaryStage.show();
 
-//        ScenicView.show(scene);
+       ScenicView.show(scene);
 
     }
 
