@@ -32,14 +32,8 @@
         </appender>
     </appenders>
     <Loggers>
-        <root level="INFO">
+        <Logger name="com.legyver.fenxlib" level="DEBUG">
             <appender-ref ref="AsyncFile" />
-        </root>
-        <Logger name="com.legyver.fenxlib.widgets.filetree.task" level="DEBUG">
-            <appender-ref ref="AsyncFile" />
-        </Logger>
-        <Logger name="com.legyver.fenxlib.samples" level="TRACE">
-            <appender-ref ref="Console" />
         </Logger>
     </Loggers>
 </configuration>
