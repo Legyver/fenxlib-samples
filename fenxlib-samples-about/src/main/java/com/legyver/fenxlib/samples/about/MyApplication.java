@@ -22,10 +22,11 @@ public class MyApplication extends Application {
 				.appName("FenxlibAboutPageDemo")
 				.customAppConfigInstantiator(map -> new JsonApplicationConfig(map))
 				.uiModel(new ApplicationUIModel())
+				.styleSheetUrl(MyApplication.class.getResource("application.css"))
 				.build();
 		applicationOptions.startup(this, primaryStage);
 
-		SceneFactory sceneFactory = new SceneFactory(primaryStage, MyApplication.class.getResource("application.css"));
+		SceneFactory sceneFactory = new SceneFactory(primaryStage);
 
 		BorderPaneApplicationLayout borderPaneApplicationLayout = new BorderPaneApplicationLayout.BorderPaneBuilder()
 				.title("Fenxlib About Page Demo")
