@@ -39,6 +39,7 @@ public class MyApplication extends Application {
                 .appName("FenxlibFileTreeDemo")
                 .customAppConfigInstantiator(JsonApplicationConfig::new)
                 .uiModel(new ApplicationUIModel())
+                .styleSheetUrl(MyApplication.class.getResource("application.css"))
                 //since we're using a thread pool to monitor the filesystem, shut down the thread pool on application exit
                 //we use a delay matching the tryAcquire timeout in FileSystemWatchTaskProcessor#runUntilAbort() so we don't get an interrupted exception in the latter
                 //since the task abort hook fires in a previous lifecycle phase to the thread pool shutdown, this is not strictly necessary, but better safe than sorry.
@@ -47,7 +48,7 @@ public class MyApplication extends Application {
 
         applicationOptions.startup(this, primaryStage);
 
-        SceneFactory sceneFactory = new SceneFactory(primaryStage, MyApplication.class.getResource("application.css"));
+        SceneFactory sceneFactory = new SceneFactory(primaryStage);
 
         //Any files added via import or filesystem watches on added directories will be added here
         FileTreeRegistry fileTreeRegistry = new FileTreeRegistry();
