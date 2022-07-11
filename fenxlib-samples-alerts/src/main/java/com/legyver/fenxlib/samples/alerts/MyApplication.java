@@ -25,7 +25,7 @@ import org.scenicview.ScenicView;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class MyApplication  extends Application {
+public class MyApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         new ApplicationOptions.AutoStartBuilder<>()

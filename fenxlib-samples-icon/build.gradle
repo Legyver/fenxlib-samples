@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
+
+ext {
+    //legyver dependencies
+    legyverFenxlibVersion = '3.0.0-alpha.7'
+    //apache dependencies
+    commonsLogVersion = '2.17.1'
+    commonsLangVersion = '3.11'
+}
+
+group 'com.legyver'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    //json config
+    implementation group: 'com.legyver', name: 'fenxlib.config.json', version: legyverFenxlibVersion
+    //file tree
+    implementation group: 'com.legyver', name: 'fenxlib.widgets.filetree', version: legyverFenxlibVersion
+    //icons
+    implementation group: 'com.legyver', name: 'fenxlib.icons.standard', version: legyverFenxlibVersion
+
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLangVersion
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: commonsLogVersion
+    implementation files('../libs/scenicview.jar')
+
+}
+
+application {
+    mainModule = 'com.legyver.fenxlib.samples.icon' // name defined in module-info.java
+    mainClass = 'com.legyver.fenxlib.samples.icon.MyApplication'
+}
+
+javafx {
+    version = '17.0.2'
+    modules = ['javafx.controls', 'javafx.media', 'javafx.swing', 'javafx.web', 'javafx.fxml']
+}
