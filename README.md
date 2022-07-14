@@ -7,3 +7,5 @@ Samples written to demonstrate the ability of the fenxlib library.
 -- Demonstrate creating an App with snackbar alerts for info/warning/error messages.
 - [fenxlib.samples.filetree](fenxlib-samples-filetree/README.md)
 -- Demonstrate creating an App with a File Explorer that auto-monitors added folders for creation/deletion/modification
+- [fenxlib.samples.icon](fenxlib-samples-icon/README.md)
+-- Demonstrate creating an App with an icon

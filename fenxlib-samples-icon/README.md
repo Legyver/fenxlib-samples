@@ -8,3 +8,8 @@
         .build();
 Text icon = IconRegistry.getInstance().getIcon(iconOptions);
 ```
+Or 
+```java
+Label label = new Label(IcoMoonFontEnum.ICON_ARROW_UP.getUnicode());
+label.setStyle("-fx-font-family: icomoon; -fx-font-size: 120;"); 
+```

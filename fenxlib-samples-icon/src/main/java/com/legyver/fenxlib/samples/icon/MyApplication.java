@@ -13,11 +13,13 @@ import com.legyver.fenxlib.core.menu.templates.section.FileExitMenuSection;
 import com.legyver.fenxlib.icons.standard.IcoMoonFontEnum;
 import com.legyver.fenxlib.icons.standard.IcoMoonIconOptions;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.scenicview.ScenicView;
@@ -49,15 +51,20 @@ public class MyApplication extends Application {
     }
 
     private Node centerLayout() {
-        StackPane stackPane = new StackPane();
+        VBox pane = new VBox();
         IcoMoonIconOptions iconOptions = new IcoMoonIconOptions.Builder()
                 .icoMoonIcon(IcoMoonFontEnum.ICON_CODEPEN)
                 .iconColorString("#ccc37c")
                 .iconSize(192)
                 .build();
         Text icon = IconRegistry.getInstance().getIcon(iconOptions);
-        stackPane.getChildren().add(icon);
-        return stackPane;
+        pane.getChildren().add(icon);
+        Label label = new Label(IcoMoonFontEnum.ICON_ARROW_UP.getUnicode());
+        label.setStyle("-fx-font-family: icomoon; -fx-font-size: 120;");
+        pane.getChildren().add(label);
+        pane.setAlignment(Pos.CENTER);
+        pane.setSpacing(40);
+        return pane;
     }
 
     private MenuBar menuBar() throws CoreException {
