@@ -62,7 +62,8 @@ public class MyApplication extends Application {
                 .fileTreeRegistry(fileTreeRegistry)
                 .fileWatchHandler(fileWatchHandler);
 
-        SimpleFileExplorer simpleFileExplorer = new SimpleFileExplorerFactory().makeNode(new DefaultLocationContext("File Tree"), simpleFileExplorerOptions);
+        SimpleFileExplorer simpleFileExplorer = new SimpleFileExplorerFactory()
+                .makeNode(new DefaultLocationContext("FileTree"), simpleFileExplorerOptions);
 
         StackPane stackPane = ControlsFactory.make(StackPane.class);
         Text text = ControlsFactory.make(Text.class, new TextOptions()
