@@ -84,7 +84,7 @@ public class MyApplication extends Application {
         primaryStage.show();
         logger.info("Application started.  Launching scenic view.");
 
-        ScenicView.show(scene);
+//        ScenicView.show(scene);
     }
 
     private MenuBar menuBar() throws CoreException {
