@@ -13,7 +13,7 @@ ext {
 }
 
 group 'com.legyver'
-version '3.0.0-alpha.8'
+version '3.0.0-alpha.9'
 
 repositories {
     mavenLocal()
