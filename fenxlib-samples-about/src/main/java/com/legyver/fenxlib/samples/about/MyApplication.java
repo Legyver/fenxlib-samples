@@ -2,6 +2,7 @@ package com.legyver.fenxlib.samples.about;
 
 import com.legyver.core.exception.CoreException;
 import com.legyver.fenxlib.api.config.options.ApplicationOptions;
+import com.legyver.fenxlib.api.context.ResourceScope;
 import com.legyver.fenxlib.api.uimodel.IUiModel;
 import com.legyver.fenxlib.config.json.JsonApplicationConfig;
 import com.legyver.fenxlib.core.controls.factory.SceneFactory;
@@ -22,7 +23,8 @@ public class MyApplication extends Application {
 				.appName("FenxlibAboutPageDemo")
 				.customAppConfigInstantiator(map -> new JsonApplicationConfig(map))
 				.uiModel(new ApplicationUIModel())
-				.styleSheetUrl(MyApplication.class.getResource("application.css"))
+				.styleSheetUrl(MyApplication.class.getResource("application.css"), ResourceScope.APPLICATION)
+				.styleSheetUrl(MyApplication.class.getResource("popups.css"), ResourceScope.POPUPS)
 				.build();
 		applicationOptions.startup(this, primaryStage);
 

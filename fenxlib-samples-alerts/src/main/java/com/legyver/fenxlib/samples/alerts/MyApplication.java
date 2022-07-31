@@ -1,95 +1,85 @@
 package com.legyver.fenxlib.samples.alerts;
 
-import com.legyver.fenxlib.core.api.locator.query.ComponentQuery;
-import com.legyver.fenxlib.core.api.uimodel.IUiModel;
-import com.legyver.fenxlib.core.impl.config.JsonApplicationConfig;
-import com.legyver.fenxlib.core.impl.config.options.ApplicationOptions;
-import com.legyver.fenxlib.core.impl.context.ApplicationContext;
-import com.legyver.fenxlib.core.impl.factory.*;
-import com.legyver.fenxlib.core.impl.factory.menu.*;
-import com.legyver.fenxlib.core.impl.factory.options.BorderPaneInitializationOptions;
-import com.legyver.fenxlib.core.impl.factory.options.RegionInitializationOptions;
-import com.legyver.fenxlib.widgets.about.AboutMenuItemFactory;
-import com.legyver.fenxlib.widgets.about.AboutPageOptions;
+import com.legyver.core.exception.CoreException;
+import com.legyver.fenxlib.api.alert.IAlert;
+import com.legyver.fenxlib.api.alert.Level;
+import com.legyver.fenxlib.api.layout.IApplicationLayout;
+import com.legyver.fenxlib.api.layout.anchor.BottomRightAnchor;
+import com.legyver.fenxlib.api.locator.query.ComponentQuery;
+import com.legyver.fenxlib.api.uimodel.IUiModel;
+import com.legyver.fenxlib.config.json.JsonApplicationConfig;
+import com.legyver.fenxlib.api.config.options.ApplicationOptions;
+import com.legyver.fenxlib.api.context.ApplicationContext;
+import com.legyver.fenxlib.core.controls.factory.SceneFactory;
+import com.legyver.fenxlib.core.layout.BorderPaneApplicationLayout;
+import com.legyver.fenxlib.core.layout.options.CenterRegionOptions;
+import com.legyver.fenxlib.core.menu.templates.MenuBuilder;
+import com.legyver.fenxlib.core.menu.templates.section.FileExitMenuSection;
 import com.legyver.fenxlib.samples.alerts.form.AlertGeneratingForm;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.scenicview.ScenicView;
 
-import java.util.Optional;
-import java.util.function.Supplier;
-
 public class MyApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        new ApplicationOptions.AutoStartBuilder<>()
+        ApplicationOptions applicationOptions = new ApplicationOptions.Builder<>()
                 .appName("FenxlibAlertsDemo")
                 .customAppConfigInstantiator(JsonApplicationConfig::new)
                 .uiModel(new ApplicationUIModel())
+                .styleSheetUrl(MyApplication.class.getResource("application.css"))
+                .displayAlerts(Level.ERROR, IAlert.TargetRegion.APPLICATION_BOTTOM_RIGHT)
+                .displayAlerts(Level.WARNING, IAlert.TargetRegion.APPLICATION_BOTTOM_RIGHT)
+                .displayAlerts(Level.INFO, IAlert.TargetRegion.APPLICATION_TOP_RIGHT)
+                .build();
+        applicationOptions.startup(this, primaryStage);
+
+//        IAlert.TargetRegion.APPLICATION_BOTTOM_RIGHT.setAlertAnchor(new BottomRightAnchor(30, 30));
+
+        SceneFactory sceneFactory = new SceneFactory(primaryStage);
+
+        BorderPaneApplicationLayout borderPaneApplicationLayout = new BorderPaneApplicationLayout.BorderPaneBuilder()
+                .title("Fenxlib Alerts Demo")
+                .width(600.0)
+                .height(800.0)
+                .centerRegionOptions(new CenterRegionOptions(alertGeneratingForm()))
+                .menuBar(menuBar())
                 .build();
 
-        AboutPageOptions aboutPageOptions = new AboutPageOptions.Builder(getClass())
-//                .buildPropertiesFile("build.properties")
-//                .copyrightPropertiesFile("copyright.properties")
-                .title("MyApplication")
-                .intro("MyApplication makes amazing things easy")
-                .gist("More stuff about how great this app is.  I can go on about it for a really long time and the text will wrap around.")
-                .additionalInfo("be sure to tell your friends")
-                .build();
+        Scene scene = sceneFactory.makeScene(borderPaneApplicationLayout);
+        primaryStage.show();
 
-        SceneFactory sceneFactory = new SceneFactory(primaryStage, 600, 675, MyApplication.class.getResource("application.css"));
+//        ScenicView.show(scene);
+    }
 
-       Supplier<StackPane> centerContentReference = () -> {
-            Optional<StackPane> center = new ComponentQuery.QueryBuilder()
-                    .inRegion(BorderPaneInitializationOptions.REGION_CENTER)
-                    .type(StackPane.class).execute();
-            return center.get();
-        };
-
+    private AlertGeneratingForm alertGeneratingForm() {
         AlertGeneratingForm alertGeneratingForm = new AlertGeneratingForm();
         alertGeneratingForm.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (NumberUtils.isDigits(newValue)) {
-                ApplicationContext.infoAlert(centerContentReference.get(), "OK", "Number entered: " + newValue, 1000L);
+                ApplicationContext.infoAlert("OK", "Number entered: " + newValue, 1000L);
             } else if (NumberUtils.isParsable(newValue)) {
-                ApplicationContext.warningAlert(centerContentReference.get(), "Warning", "Number contains a decimal: " + newValue, 2000L);
+                ApplicationContext.warningAlert("Warning", "Number contains a decimal: " + newValue, 2000L);
             } else {
-                ApplicationContext.errorAlert(centerContentReference.get(), "Bad value", "Value is not a number: " + newValue);
+                ApplicationContext.errorAlert("Bad value", "Value is not a number: " + newValue);
             }
         });
+        return alertGeneratingForm;
+    }
 
-        BorderPaneInitializationOptions options = new BorderPaneInitializationOptions.Builder()
-                .center(new RegionInitializationOptions.Builder()
-                        //this StackPane will be queried by the above centerContentReference
-                        .factory(new StackPaneRegionFactory(true, (x) -> alertGeneratingForm))
-                )
-                .top(new RegionInitializationOptions.Builder()
-                        .factory(new TopRegionFactory(
-                                new LeftMenuOptions(
-                                        new MenuFactory("File",
-                                                new ExitMenuItemFactory("Exit")
-                                        )
-                                ),
-                                new CenterOptions(new TextFieldFactory(false)),
-                                new RightMenuOptions(
-                                        new MenuFactory("Help", new AboutMenuItemFactory("About", centerContentReference, aboutPageOptions))
-                                )
-                        )))
-               .build();
+    private MenuBar menuBar() throws CoreException {
+        MenuBar menuBar = new MenuBar();
 
-        BorderPane root = new BorderPaneFactory(options).makeBorderPane();
-        Scene scene = sceneFactory.makeScene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Alerts Demo");
-        primaryStage.show();
+        Menu fileMenu = new MenuBuilder()
+                .name("File")
+                .menuSection(new FileExitMenuSection())
+                .build();
+        menuBar.getMenus().add(fileMenu);
 
-       ScenicView.show(scene);
-
+        return menuBar;
     }
 
     private static class ApplicationUIModel implements IUiModel {

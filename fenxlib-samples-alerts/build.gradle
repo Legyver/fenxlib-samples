@@ -1,18 +1,19 @@
 plugins {
     id 'java'
     id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.11'
 }
 
 ext {
     //legyver dependencies
-    legyverFenxlibVersion = '2.1.1.0'
+    legyverFenxlibVersion = '3.0.0-alpha.9'
     //apache dependencies
     commonsLogVersion = '2.13.3'
     commonsLangVersion = '3.11'
 }
 
 group 'com.legyver'
-version '1.0-SNAPSHOT'
+version '3.0.0-alpha.9'
 
 repositories {
     mavenLocal()
@@ -20,14 +21,14 @@ repositories {
 }
 
 dependencies {
-    //about
-    implementation group: 'com.legyver', name: 'fenxlib.widgets.about', version: legyverFenxlibVersion
     implementation group: 'com.legyver', name: 'fenxlib.widgets.snackbar', version: legyverFenxlibVersion
+    //json config
+    implementation group: 'com.legyver', name: 'fenxlib.config.json', version: legyverFenxlibVersion
 
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLangVersion
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: commonsLogVersion
 
-    implementation files('libs/scenicview.jar')
+    implementation files('../libs/scenicview.jar')
 
 
 }
@@ -37,13 +38,7 @@ application {
     mainClass = 'com.legyver.fenxlib.samples.alerts.MyApplication'
 }
 
-run {
-    //workaround for https://github.com/sshahine/JFoenix/issues/955
-    jvmArgs = [
-            '--add-opens=java.base/java.lang.reflect=com.jfoenix'
-    ]
-}
-
-java {
-    modularity.inferModulePath = true
+javafx {
+    version = '17.0.2'
+    modules = ['javafx.controls', 'javafx.media', 'javafx.swing', 'javafx.web', 'javafx.fxml']
 }

@@ -1,13 +1,16 @@
 module com.legyver.fenxlib.samples.alerts {
-    requires com.legyver.fenxlib.core.api;
-    requires com.legyver.fenxlib.core.impl;
     requires org.apache.commons.lang3;
 
     requires javafx.controls;
-    requires javafx.fxml;
     requires transitive javafx.web;
     requires transitive javafx.swing;
 
+    requires com.legyver.fenxlib.config.json;
+    requires com.legyver.fenxlib.api;
+    requires com.legyver.fenxlib.core;
+    requires org.apache.logging.log4j;
     requires org.scenicview.scenicview;
-    requires com.legyver.fenxlib.widgets.about;
+//    requires org.scenicview.scenicview;
+
+    exports com.legyver.fenxlib.samples.alerts to javafx.graphics;
 }
