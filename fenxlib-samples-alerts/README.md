@@ -2,25 +2,25 @@
 
 ## Usage
 ```java
-//the alert will be displayed over this area
-Supplier<StackPane> centerContentReference = () -> {
-    Optional<StackPane> center = new ComponentQuery.QueryBuilder()
-        .inRegion(BorderPaneInitializationOptions.REGION_CENTER)
-        .type(StackPane.class).execute();
-    return center.get();
-};
+ApplicationOptions applicationOptions = new ApplicationOptions.Builder<>()
+        //...
+        //specify where to display each level of alert
+        //if left unspecified, they will all display in the bottom-right of the application
+        .displayAlerts(Level.ERROR, IAlert.TargetRegion.APPLICATION_BOTTOM_RIGHT)
+        .displayAlerts(Level.WARNING, IAlert.TargetRegion.APPLICATION_BOTTOM_RIGHT)
+        .displayAlerts(Level.INFO, IAlert.TargetRegion.APPLICATION_TOP_RIGHT)
+        //hook up our i18n resource bundle
+        .resourceBundle("com.legyver.fenxlib.samples.alerts.demo")
+        .build();
 
 AlertGeneratingForm alertGeneratingForm = new AlertGeneratingForm();
 alertGeneratingForm.valueProperty().addListener((observable, oldValue, newValue) -> {
     if (NumberUtils.isDigits(newValue)) {
-        //show info message for 1 second
-        ApplicationContext.infoAlert(centerContentReference.get(), "OK", "Number entered: " + newValue, 1000L);
+        ApplicationContext.infoAlert(new AlertTextContent("fenxlib.demo.ok.message", newValue), 1000L);
     } else if (NumberUtils.isParsable(newValue)) {
-        //show warning message for 2 seconds
-        ApplicationContext.warningAlert(centerContentReference.get(), "Warning", "Number contains a decimal: " + newValue, 2000L);
+        ApplicationContext.warningAlert(new AlertTextContent("fenxlib.demo.warning.message", newValue), 2000L);
     } else {
-        //show error message.  No timeout.  Message closes when user clicks away.
-        ApplicationContext.errorAlert(centerContentReference.get(), "Bad value", "Value is not a number: " + newValue);
+        ApplicationContext.errorAlert(new AlertTextContent("fenxlib.demo.error.message", newValue));
     }
 });
 ```

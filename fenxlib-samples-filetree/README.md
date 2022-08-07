@@ -9,9 +9,13 @@
                 .fileFilter(new SuffixFileFilter(".xml"))
                 .build(fileTreeRegistry);
 
-        BorderPaneInitializationOptions options = new BorderPaneInitializationOptions.Builder()
-              ...
-                .left(new RegionInitializationOptions.SideBuilder("Files")
-                      .factory(new StackPaneRegionFactory(false, new SimpleFileExplorerFactory(fileTreeRegistry, fileWatchHandler))))
+        SimpleFileExplorer simpleFileExplorer = new SimpleFileExplorerFactory()
+                .makeNode(new DefaultLocationContext("FileTree"), simpleFileExplorerOptions);
+
+        BorderPaneApplicationLayout borderPaneApplicationLayout = new BorderPaneApplicationLayout.BorderPaneBuilder()
+                .title("fenxlib.demo.filetree.title")
+                //...
+                .leftRegionOptions(new LeftRegionOptions(simpleFileExplorer))
+                //...
                 .build();
 ```

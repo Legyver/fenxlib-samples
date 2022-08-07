@@ -6,14 +6,14 @@ plugins {
 
 ext {
     //legyver dependencies
-    legyverFenxlibVersion = '3.0.0-alpha.9'
+    legyverFenxlibVersion = '3.0.0-alpha.10'
     //apache dependencies
     commonsLogVersion = '2.13.3'
     commonsLangVersion = '3.11'
 }
 
 group 'com.legyver'
-version '3.0.0-alpha.9'
+version '3.0.0-alpha.10'
 
 repositories {
     mavenLocal()

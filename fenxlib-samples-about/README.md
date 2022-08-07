@@ -4,10 +4,11 @@
 AboutPageOptions aboutPageOptions = new AboutPageOptions.Builder(getClass())
     .buildPropertiesFile("build.properties")
     .copyrightPropertiesFile("copyright.properties")
-    .title("MyApplication")
-    .intro("MyApplication makes amazing things easy")
-    .gist("More stuff about how great this app is.  I can go on about it for a really long time and the text will wrap around.")
-    .additionalInfo("be sure to tell your friends")
+        //below are resource bundle properties evaluated at runtime for i18n
+    .title("fenxlib.demo.about.title")
+    .intro("fenxlib.demo.about.intro")
+    .gist("fenxlib.demo.about.gist")
+    .additionalInfo("fenxlib.demo.about.additionalInfo")
     .build();
 ```
 ## Result

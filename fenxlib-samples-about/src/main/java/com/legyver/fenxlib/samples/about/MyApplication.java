@@ -25,13 +25,14 @@ public class MyApplication extends Application {
 				.uiModel(new ApplicationUIModel())
 				.styleSheetUrl(MyApplication.class.getResource("application.css"), ResourceScope.APPLICATION)
 				.styleSheetUrl(MyApplication.class.getResource("popups.css"), ResourceScope.POPUPS)
+				.resourceBundle("com.legyver.fenxlib.samples.about.bundle")
 				.build();
 		applicationOptions.startup(this, primaryStage);
 
 		SceneFactory sceneFactory = new SceneFactory(primaryStage);
 
 		BorderPaneApplicationLayout borderPaneApplicationLayout = new BorderPaneApplicationLayout.BorderPaneBuilder()
-				.title("Fenxlib About Page Demo")
+				.title("fenxlib.demo.title")
 				.width(600.0)
 				.height(800.0)
 				.menuBar(menuBar())
@@ -44,7 +45,7 @@ public class MyApplication extends Application {
 		MenuBar menuBar = new MenuBar();
 
 		Menu fileMenu = new MenuBuilder()
-				.name("File")
+				.name("fenxlib.demo.menu.label.file")
 				.menuSection(new FileExitMenuSection())
 				.build();
 		menuBar.getMenus().add(fileMenu);
@@ -52,13 +53,13 @@ public class MyApplication extends Application {
 		AboutPageOptions aboutPageOptions = new AboutPageOptions.Builder(getClass())
 				.buildPropertiesFile("build.properties")
 				.copyrightPropertiesFile("copyright.properties")
-				.title("MyApplication")
-				.intro("MyApplication makes amazing things easy")
-				.gist("More stuff about how great this app is.  I can go on about it for a really long time and the text will wrap around.")
-				.additionalInfo("be sure to tell your friends")
+				.title("fenxlib.demo.about.title")
+				.intro("fenxlib.demo.about.intro")
+				.gist("fenxlib.demo.about.gist")
+				.additionalInfo("fenxlib.demo.about.additionalInfo")
 				.build();
 		Menu helpMenu = new MenuBuilder()
-				.name("Help")
+				.name("fenxlib.demo.menu.label.help")
 				.menuSection(new AboutMenuSection(aboutPageOptions))
 				.build();
 		menuBar.getMenus().add(helpMenu);

@@ -2,17 +2,17 @@ package com.legyver.fenxlib.samples.filetree;
 
 import com.legyver.core.exception.CoreException;
 import com.legyver.fenxlib.api.config.options.ApplicationOptions;
+import com.legyver.fenxlib.api.controls.ControlsFactory;
 import com.legyver.fenxlib.api.locator.DefaultLocationContext;
+import com.legyver.fenxlib.api.scene.text.options.TextOptions;
 import com.legyver.fenxlib.api.uimodel.IUiModel;
 import com.legyver.fenxlib.config.json.JsonApplicationConfig;
-import com.legyver.fenxlib.core.controls.ControlsFactory;
 import com.legyver.fenxlib.core.controls.factory.SceneFactory;
 import com.legyver.fenxlib.core.layout.BorderPaneApplicationLayout;
 import com.legyver.fenxlib.core.layout.options.CenterRegionOptions;
 import com.legyver.fenxlib.core.layout.options.LeftRegionOptions;
 import com.legyver.fenxlib.core.menu.templates.MenuBuilder;
 import com.legyver.fenxlib.core.menu.templates.section.FileExitMenuSection;
-import com.legyver.fenxlib.core.scene.text.options.TextOptions;
 import com.legyver.fenxlib.extensions.tuktukfx.config.TaskExecutorShutdownApplicationLifecycleHook;
 import com.legyver.fenxlib.widgets.filetree.SimpleFileExplorer;
 import com.legyver.fenxlib.widgets.filetree.factory.SimpleFileExplorerFactory;
@@ -40,6 +40,7 @@ public class MyApplication extends Application {
                 .customAppConfigInstantiator(JsonApplicationConfig::new)
                 .uiModel(new ApplicationUIModel())
                 .styleSheetUrl(MyApplication.class.getResource("application.css"))
+                .resourceBundle("com.legyver.fenxlib.samples.filetree.demo")
                 //since we're using a thread pool to monitor the filesystem, shut down the thread pool on application exit
                 //we use a delay matching the tryAcquire timeout in FileSystemWatchTaskProcessor#runUntilAbort() so we don't get an interrupted exception in the latter
                 //since the task abort hook fires in a previous lifecycle phase to the thread pool shutdown, this is not strictly necessary, but better safe than sorry.
@@ -67,11 +68,11 @@ public class MyApplication extends Application {
 
         StackPane stackPane = ControlsFactory.make(StackPane.class);
         Text text = ControlsFactory.make(Text.class, new TextOptions()
-                .text("Right click on file explorer and choose 'Add' to add a directory"));
+                .text("fenxlib.demo.filetree.center.pane.label.usage.hint"));
         stackPane.getChildren().add(text);
 
         BorderPaneApplicationLayout borderPaneApplicationLayout = new BorderPaneApplicationLayout.BorderPaneBuilder()
-                .title("Fenxlib File Tree Demo")
+                .title("fenxlib.demo.filetree.title")
                 .width(600.0)
                 .height(800.0)
                 .menuBar(menuBar())
@@ -82,8 +83,7 @@ public class MyApplication extends Application {
         logger = LogManager.getLogger(MyApplication.class);
         logger.info("Application started.  Showing now.");
         primaryStage.show();
-        logger.info("Application started.  Launching scenic view.");
-
+//        logger.info("Application started.  Launching scenic view.");
 //        ScenicView.show(scene);
     }
 
@@ -91,7 +91,7 @@ public class MyApplication extends Application {
         MenuBar menuBar = new MenuBar();
 
         Menu fileMenu = new MenuBuilder()
-                .name("File")
+                .name("fenxlib.demo.filetree.menu.label.file")
                 .menuSection(new FileExitMenuSection())
                 .build();
         menuBar.getMenus().add(fileMenu);

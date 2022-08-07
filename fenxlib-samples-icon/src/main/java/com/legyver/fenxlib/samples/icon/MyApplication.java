@@ -32,13 +32,14 @@ public class MyApplication extends Application {
                 .customAppConfigInstantiator(map -> new JsonApplicationConfig(map))
                 .uiModel(new ApplicationUIModel())
                 .styleSheetUrl(MyApplication.class.getResource("application.css"))
+                .resourceBundle("com.legyver.fenxlib.samples.icon.demo")
                 .build();
         applicationOptions.startup(this, primaryStage);
 
         SceneFactory sceneFactory = new SceneFactory(primaryStage);
 
         BorderPaneApplicationLayout borderPaneApplicationLayout = new BorderPaneApplicationLayout.BorderPaneBuilder()
-                .title("Fenxlib Icon Demo")
+                .title("fenxlib.demo.title")
                 .width(600.0)
                 .height(800.0)
                 .menuBar(menuBar())
@@ -71,7 +72,7 @@ public class MyApplication extends Application {
         MenuBar menuBar = new MenuBar();
 
         Menu fileMenu = new MenuBuilder()
-                .name("File")
+                .name("fenxlib.demo.menu.label.file")
                 .menuSection(new FileExitMenuSection())
                 .build();
         menuBar.getMenus().add(fileMenu);
