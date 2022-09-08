@@ -2,18 +2,18 @@ plugins {
     id 'java'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.11'
+    id 'com.legyver.resource-bundle-i18n' version '1.0.1'
 }
 
 ext {
     //legyver dependencies
-    legyverFenxlibVersion = '3.0.0-beta.1'
+    legyverFenxlibVersion = '3.0.0-beta.2'
     //apache dependencies
     commonsLogVersion = '2.13.3'
     commonsLangVersion = '3.11'
 }
 
 group 'com.legyver'
-version '3.0.0-beta.1'
 
 repositories {
     mavenLocal()
@@ -40,4 +40,10 @@ application {
 javafx {
     version = '17.0.2'
     modules = ['javafx.controls', 'javafx.media', 'javafx.swing', 'javafx.web']
+}
+
+resourceBundleI18n {
+    translationUrl = 'http://localhost:5000'
+    targetLanguages = ['en', 'en_US', 'en_GB', "es", "de", "fr"]
+    bundleName = 'com.legyver.fenxlib.samples.about.bundle'
 }

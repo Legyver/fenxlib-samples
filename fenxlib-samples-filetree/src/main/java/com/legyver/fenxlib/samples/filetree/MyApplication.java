@@ -73,7 +73,7 @@ public class MyApplication extends Application {
 
         BorderPaneApplicationLayout borderPaneApplicationLayout = new BorderPaneApplicationLayout.BorderPaneBuilder()
                 .title("fenxlib.demo.filetree.title")
-                .width(600.0)
+                .width(1000.0)
                 .height(800.0)
                 .menuBar(menuBar())
                 .leftRegionOptions(new LeftRegionOptions(simpleFileExplorer))
