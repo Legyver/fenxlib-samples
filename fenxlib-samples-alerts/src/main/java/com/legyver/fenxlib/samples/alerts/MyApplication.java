@@ -45,7 +45,7 @@ public class MyApplication extends Application {
         BorderPaneApplicationLayout borderPaneApplicationLayout = new BorderPaneApplicationLayout.BorderPaneBuilder()
                 .title("fenxlib.demo.title")//Fenxlib Alerts Demo
                 .width(600.0)
-                .height(800.0)
+                .height(400.0)
                 .centerRegionOptions(new CenterRegionOptions(alertGeneratingForm()))
                 .menuBar(menuBar())
                 .build();

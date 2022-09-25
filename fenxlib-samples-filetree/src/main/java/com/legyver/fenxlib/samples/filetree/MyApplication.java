@@ -13,11 +13,10 @@ import com.legyver.fenxlib.core.layout.options.CenterRegionOptions;
 import com.legyver.fenxlib.core.layout.options.LeftRegionOptions;
 import com.legyver.fenxlib.core.menu.templates.MenuBuilder;
 import com.legyver.fenxlib.core.menu.templates.section.FileExitMenuSection;
-import com.legyver.fenxlib.extensions.tuktukfx.config.TaskExecutorShutdownApplicationLifecycleHook;
-import com.legyver.fenxlib.extensions.tuktukfx.task.exec.TaskExecutor;
 import com.legyver.fenxlib.widgets.filetree.SimpleFileExplorer;
 import com.legyver.fenxlib.widgets.filetree.factory.SimpleFileExplorerFactory;
 import com.legyver.fenxlib.widgets.filetree.factory.SimpleFileExplorerOptions;
+import com.legyver.fenxlib.widgets.filetree.menu.ImportMenuSection;
 import com.legyver.fenxlib.widgets.filetree.registry.FileTreeRegistry;
 import com.legyver.fenxlib.widgets.filetree.scan.FileWatchHandler;
 import javafx.application.Application;
@@ -30,7 +29,6 @@ import javafx.stage.Stage;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.scenicview.ScenicView;
 
 public class MyApplication extends Application {
     private static Logger logger;
@@ -72,7 +70,7 @@ public class MyApplication extends Application {
                 .title("fenxlib.demo.filetree.title")
                 .width(1000.0)
                 .height(800.0)
-                .menuBar(menuBar())
+                .menuBar(menuBar(fileTreeRegistry))
                 .leftRegionOptions(new LeftRegionOptions(simpleFileExplorer))
                 .centerRegionOptions(new CenterRegionOptions(stackPane))
                 .build();
@@ -84,11 +82,12 @@ public class MyApplication extends Application {
 //        ScenicView.show(scene);
     }
 
-    private MenuBar menuBar() throws CoreException {
+    private MenuBar menuBar(FileTreeRegistry fileTreeRegistry) throws CoreException {
         MenuBar menuBar = new MenuBar();
 
         Menu fileMenu = new MenuBuilder()
                 .name("fenxlib.demo.filetree.menu.label.file")
+                .menuSection(new ImportMenuSection(fileTreeRegistry))
                 .menuSection(new FileExitMenuSection())
                 .build();
         menuBar.getMenus().add(fileMenu);
