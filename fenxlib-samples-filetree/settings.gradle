@@ -1,3 +1,10 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenLocal()
+    }
+}
+
 plugins {
     id 'com.legyver.build-data' version '1.0.0'
 }

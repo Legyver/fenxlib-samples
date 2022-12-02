@@ -3,7 +3,6 @@ package com.legyver.fenxlib.samples.icon;
 import com.legyver.core.exception.CoreException;
 import com.legyver.fenxlib.api.config.options.ApplicationOptions;
 import com.legyver.fenxlib.api.uimodel.IUiModel;
-import com.legyver.fenxlib.config.json.JsonApplicationConfig;
 import com.legyver.fenxlib.core.controls.factory.SceneFactory;
 import com.legyver.fenxlib.core.icons.IconRegistry;
 import com.legyver.fenxlib.core.layout.BorderPaneApplicationLayout;
@@ -29,7 +28,6 @@ public class MyApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         ApplicationOptions applicationOptions = new ApplicationOptions.Builder<>()
                 .appName("FenxlibIconDemo")
-                .customAppConfigInstantiator(map -> new JsonApplicationConfig(map))
                 .uiModel(new ApplicationUIModel())
                 .styleSheetUrl(MyApplication.class.getResource("application.css"))
                 .resourceBundle("com.legyver.fenxlib.samples.icon.demo")

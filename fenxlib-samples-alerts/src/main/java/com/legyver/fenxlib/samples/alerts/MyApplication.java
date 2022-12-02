@@ -7,7 +7,6 @@ import com.legyver.fenxlib.api.alert.Level;
 import com.legyver.fenxlib.api.config.options.ApplicationOptions;
 import com.legyver.fenxlib.api.context.ApplicationContext;
 import com.legyver.fenxlib.api.uimodel.IUiModel;
-import com.legyver.fenxlib.config.json.JsonApplicationConfig;
 import com.legyver.fenxlib.core.controls.factory.SceneFactory;
 import com.legyver.fenxlib.core.layout.BorderPaneApplicationLayout;
 import com.legyver.fenxlib.core.layout.options.CenterRegionOptions;
@@ -26,7 +25,6 @@ public class MyApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         ApplicationOptions applicationOptions = new ApplicationOptions.Builder<>()
                 .appName("FenxlibAlertsDemo")
-                .customAppConfigInstantiator(JsonApplicationConfig::new)
                 .uiModel(new ApplicationUIModel())
                 .styleSheetUrl(MyApplication.class.getResource("application.css"))
                 .displayAlerts(Level.ERROR, IAlert.TargetRegion.APPLICATION_BOTTOM_RIGHT)

@@ -6,7 +6,7 @@ import com.legyver.fenxlib.api.controls.ControlsFactory;
 import com.legyver.fenxlib.api.locator.DefaultLocationContext;
 import com.legyver.fenxlib.api.scene.text.options.TextOptions;
 import com.legyver.fenxlib.api.uimodel.IUiModel;
-import com.legyver.fenxlib.config.json.JsonApplicationConfig;
+import com.legyver.fenxlib.widgets.filetree.config.FileTreeConfig;
 import com.legyver.fenxlib.core.controls.factory.SceneFactory;
 import com.legyver.fenxlib.core.layout.BorderPaneApplicationLayout;
 import com.legyver.fenxlib.core.layout.options.CenterRegionOptions;
@@ -36,7 +36,10 @@ public class MyApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         ApplicationOptions applicationOptions = new ApplicationOptions.Builder<>()
                 .appName("FenxlibFileTreeDemo")
-                .customAppConfigInstantiator(JsonApplicationConfig::new)
+                //FileTreeConfig implements FileTreeConfigAware, so we will persist the records
+                //of the last file set displayed in the tree for retrieval the next time the application
+                //starts up
+                .applicationConfigClass(FileTreeConfig.class)
                 .uiModel(new ApplicationUIModel())
                 .styleSheetUrl(MyApplication.class.getResource("application.css"))
                 .resourceBundle("com.legyver.fenxlib.samples.filetree.demo")

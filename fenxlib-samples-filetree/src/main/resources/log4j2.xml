@@ -35,5 +35,8 @@
         <Logger name="com.legyver.fenxlib" level="DEBUG">
             <appender-ref ref="AsyncFile" />
         </Logger>
+        <Logger name="com.legyver.utils" level="DEBUG">
+            <appender-ref ref="AsyncFile" />
+        </Logger>
     </Loggers>
 </configuration>

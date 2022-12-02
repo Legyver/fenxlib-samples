@@ -3,14 +3,15 @@ plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.11'
     id 'com.legyver.resource-bundle-i18n' version '1.0.1'
+    id 'com.legyver.legacy-java-module-info' version '1.0.0-alpha.1'
 }
 
 ext {
     //legyver dependencies
-    legyverFenxlibVersion = '3.0.0-beta.5'
+    legyverFenxlibVersion = '3.0.0-beta.6'
     //apache dependencies
-    commonsLogVersion = '2.17.1'
-    commonsLangVersion = '3.11'
+    commonsLogVersion = '2.19.0'
+    commonsLangVersion = '3.12.0'
 }
 
 group 'com.legyver'
@@ -48,4 +49,10 @@ resourceBundleI18n {
     translationUrl = 'http://localhost:5000'
     targetLanguages = ['en', 'en_US', 'en_GB', "es", "de", "fr"]
     bundleName = 'com.legyver.fenxlib.samples.filetree.demo'
+}
+
+legacyJavaModuleInfo {
+    automaticModule('json-path-2.7.0.jar', 'com.jayway.jsonpath')
+    automaticModule('json-smart-2.4.7.jar', 'net.minidev.json')
+    automaticModule('accessors-smart-2.4.7.jar', 'net.minidev.accessors')
 }

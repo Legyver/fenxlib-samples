@@ -1,7 +1,6 @@
 module com.legyver.fenxlib.samples.icon {
     requires com.legyver.core;
     requires com.legyver.fenxlib.api;
-    requires com.legyver.fenxlib.config.json;
     requires com.legyver.fenxlib.core;
     requires javafx.graphics;
     requires javafx.controls;

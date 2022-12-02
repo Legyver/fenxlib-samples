@@ -7,10 +7,10 @@ plugins {
 
 ext {
     //legyver dependencies
-    legyverFenxlibVersion = '3.0.0-beta.5'
+    legyverFenxlibVersion = '3.0.0-beta.6'
     //apache dependencies
-    commonsLogVersion = '2.17.1'
-    commonsLangVersion = '3.11'
+    commonsLogVersion = '2.19.0'
+    commonsLangVersion = '3.12.0'
 }
 
 group 'com.legyver'
@@ -21,10 +21,6 @@ repositories {
 }
 
 dependencies {
-    //json config
-    implementation group: 'com.legyver', name: 'fenxlib.config.json', version: legyverFenxlibVersion
-    //file tree
-    implementation group: 'com.legyver', name: 'fenxlib.widgets.filetree', version: legyverFenxlibVersion
     //icons
     implementation group: 'com.legyver', name: 'fenxlib.icons.standard', version: legyverFenxlibVersion
 

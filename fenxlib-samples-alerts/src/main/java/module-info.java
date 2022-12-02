@@ -5,7 +5,6 @@ module com.legyver.fenxlib.samples.alerts {
     requires transitive javafx.web;
     requires transitive javafx.swing;
 
-    requires com.legyver.fenxlib.config.json;
     requires com.legyver.fenxlib.api;
     requires com.legyver.fenxlib.core;
     requires org.apache.logging.log4j;
