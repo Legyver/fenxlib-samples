@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'com.legyver.resource-bundle-i18n' version '1.0.4'
+}
+
+ext {
+    //legyver dependencies
+    legyverFenxlibVersion = '3.0.0-beta.9'
+    //apache dependencies
+    commonsLogVersion = '2.19.0'
+    commonsLangVersion = '3.12.0'
+}
+
+group 'com.legyver'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    //icons
+    implementation group: 'com.legyver', name: 'fenxlib.core', version: legyverFenxlibVersion
+
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLangVersion
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: commonsLogVersion
+    implementation files('../libs/scenicview.jar')
+
+}
+
+application {
+    mainModule = 'com.legyver.fenxlib.samples.hello' // name defined in module-info.java
+    mainClass = 'com.legyver.fenxlib.samples.hello.MyApplication'
+}
+
+javafx {
+    version = '17.0.2'
+    modules = ['javafx.controls', 'javafx.media', 'javafx.swing', 'javafx.web', 'javafx.fxml']
+}
+
+
+resourceBundleI18n {
+    translationUrl = 'https://translate.argosopentech.com/'
+    targetLanguages = ['en', 'en_US', 'en_GB', "es", "de", "fr"]
+    bundleName = 'com.legyver.fenxlib.samples.hello.labels'
+}
