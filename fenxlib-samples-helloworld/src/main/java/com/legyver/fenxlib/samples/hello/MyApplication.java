@@ -16,6 +16,7 @@ import javafx.application.Application;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -53,8 +54,8 @@ public class MyApplication extends Application {
     }
 
     private Pane centerLayout() throws CoreException {
-
         VBox vBox = ControlsFactory.make(VBox.class, new VBoxOptions().name("Center"));
+        vBox.setPadding(new Insets(15));
 
         LocationContext locationContext = new LocationContextOperator(vBox).getLocationContext();
 
@@ -64,7 +65,9 @@ public class MyApplication extends Application {
         nameField.setMaxWidth(200);
         Label greeting = ControlsFactory.make(Label.class, locationContext);
         greeting.setStyle("-fx-font-size: 15pt ;");
-        String translatedMessage = ResourceBundleServiceRegistry.getInstance().getMessage("fenxlib.demo.hello.message", "World");
+
+        String worldTranslation = ResourceBundleServiceRegistry.getInstance().getMessage("fenxlib.demo.hello.default");
+        String translatedMessage = ResourceBundleServiceRegistry.getInstance().getMessage("fenxlib.demo.hello.message", worldTranslation);
         greeting.setText(translatedMessage);
 
         StringProperty nameProperty = nameField.textProperty();
@@ -74,7 +77,7 @@ public class MyApplication extends Application {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 String useValue = newValue;
                 if (StringUtils.isBlank(newValue)) {
-                    useValue = "World";
+                    useValue = worldTranslation;
                 }
                 String translatedMessage = ResourceBundleServiceRegistry.getInstance().getMessage("fenxlib.demo.hello.message", useValue);
                 greeting.setText(translatedMessage);

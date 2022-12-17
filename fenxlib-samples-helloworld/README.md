@@ -32,16 +32,30 @@ public class MyApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //...
-        SinglePaneApplicationLayout borderPaneApplicationLayout = new SinglePaneApplicationLayout.SinglePaneApplicationLayoutBuilder()
+        SinglePaneApplicationLayout applicationLayout = new SinglePaneApplicationLayout.SinglePaneApplicationLayoutBuilder()
                 .title("fenxlib.demo.title")//i18n window title
                 .width(600.0)
                 .height(800.0)
-                .menuBar(menuBar())
-                .pane(centerLayout())
+                .menuBar(menuBar())//any menus
+                .pane(centerLayout())//content to display in main application pane
                 .build();
         //...
     }
     //..
+}
+```
+
+### Render the scene
+```java
+public class MyApplication extends Application {
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        //...
+        SceneFactory sceneFactory = new SceneFactory(primaryStage);
+        sceneFactory.makeScene(applicationLayout);
+        primaryStage.show();
+    }
+    //...
 }
 ```
 
@@ -53,7 +67,7 @@ public class MyApplication extends Application {
         MenuBar menuBar = new MenuBar();
 
         Menu fileMenu = new MenuBuilder()
-                .name("fenxlib.demo.menu.label.file")//i18n property
+                .name("fenxlib.demo.menu.label.file")//i18n "File" menu label
                 .menuSection(new FileExitMenuSection())//Any out-of-the-box menus are automatically i18n
                 .build();
         menuBar.getMenus().add(fileMenu);
@@ -75,7 +89,7 @@ public class MyApplication extends Application {
         LocationContext locationContext = new LocationContextOperator(vBox).getLocationContext();
 
         //providing the location context of the vbox means that the text field will be registered under the vbox
-        //this could be help full if you only know the vbox location, you could look up the text field in that vbox
+        //this could be helpful if you only know the vbox location, you could look up the text field in that vbox
         TextField nameField = ControlsFactory.make(TextField.class, locationContext, new TextFieldOptions()
                 .promptText("fenxlib.demo.hello.prompt.text")//i18n prompt text
         );
@@ -85,7 +99,8 @@ public class MyApplication extends Application {
         greeting.setStyle("-fx-font-size: 15pt ;");
         
         //look up a translation for the default "Hello World" message
-        String translatedMessage = ResourceBundleServiceRegistry.getInstance().getMessage("fenxlib.demo.hello.message", "World");
+        String worldTranslation = ResourceBundleServiceRegistry.getInstance().getMessage("fenxlib.demo.hello.default");
+        String translatedMessage = ResourceBundleServiceRegistry.getInstance().getMessage("fenxlib.demo.hello.message", worldTranslation);
         greeting.setText(translatedMessage);
 
         //When the name field has text entered, re-interpret the message with that text
@@ -95,7 +110,7 @@ public class MyApplication extends Application {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 String useValue = newValue;
                 if (StringUtils.isBlank(newValue)) {
-                    useValue = "World";
+                    useValue = worldTranslation;
                 }
                 String translatedMessage = ResourceBundleServiceRegistry.getInstance().getMessage("fenxlib.demo.hello.message", useValue);
                 greeting.setText(translatedMessage);
