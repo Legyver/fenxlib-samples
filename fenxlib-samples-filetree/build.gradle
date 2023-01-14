@@ -3,12 +3,12 @@ plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.11'
     id 'com.legyver.resource-bundle-i18n' version '1.0.1'
-    id 'com.legyver.legacy-java-module-info' version '1.0.0-alpha.1'
+    id 'com.legyver.legacy-java-module-info' version '1.0.0'
 }
 
 ext {
     //legyver dependencies
-    legyverFenxlibVersion = '3.0.0-beta.6'
+    legyverFenxlibVersion = '3.0.1'
     //apache dependencies
     commonsLogVersion = '2.19.0'
     commonsLangVersion = '3.12.0'

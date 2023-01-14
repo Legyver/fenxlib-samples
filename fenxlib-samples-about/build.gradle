@@ -7,10 +7,9 @@ plugins {
 
 ext {
     //legyver dependencies
-    legyverFenxlibVersion = '3.0.0-beta.6'
+    legyverFenxlibVersion = '3.0.0'
     //apache dependencies
     commonsLogVersion = '2.19.0'
-    commonsLangVersion = '3.12.0'
 }
 
 group 'com.legyver'
@@ -24,8 +23,9 @@ dependencies {
     //about
     implementation group: 'com.legyver', name: 'fenxlib.widgets.about', version: legyverFenxlibVersion
 
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLangVersion
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: commonsLogVersion
+
+    implementation files('../libs/scenicview.jar')
 
 }
 
@@ -36,7 +36,7 @@ application {
 
 javafx {
     version = '17.0.2'
-    modules = ['javafx.controls', 'javafx.media', 'javafx.swing', 'javafx.web']
+    modules = ['javafx.controls', 'javafx.media', 'javafx.swing', 'javafx.web', 'javafx.fxml']//fxml required for scenic view
 }
 
 resourceBundleI18n {

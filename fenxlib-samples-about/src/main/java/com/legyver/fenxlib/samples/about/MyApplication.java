@@ -6,14 +6,22 @@ import com.legyver.fenxlib.api.context.ResourceScope;
 import com.legyver.fenxlib.api.uimodel.IUiModel;
 import com.legyver.fenxlib.core.controls.factory.SceneFactory;
 import com.legyver.fenxlib.core.layout.BorderPaneApplicationLayout;
+import com.legyver.fenxlib.core.layout.options.CenterRegionOptions;
 import com.legyver.fenxlib.core.menu.templates.MenuBuilder;
 import com.legyver.fenxlib.core.menu.templates.section.FileExitMenuSection;
 import com.legyver.fenxlib.widgets.about.AboutMenuSection;
+import com.legyver.fenxlib.widgets.about.AboutPage;
+import com.legyver.fenxlib.widgets.about.AboutPageFactory;
 import com.legyver.fenxlib.widgets.about.AboutPageOptions;
+
+import javafx.scene.Scene;
+import org.scenicview.ScenicView;
+
 import javafx.application.Application;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.stage.Stage;
+
 
 public class MyApplication extends Application {
 	@Override
@@ -35,8 +43,25 @@ public class MyApplication extends Application {
 				.height(800.0)
 				.menuBar(menuBar())
 				.build();
-		sceneFactory.makeScene(borderPaneApplicationLayout);
+		Scene scene = sceneFactory.makeScene(borderPaneApplicationLayout);
 		primaryStage.show();
+
+//		ScenicView.show(scene);
+	}
+
+	private AboutPage getAboutPage() throws CoreException {
+		return new AboutPageFactory().makeNode(null, getAboutPageOptions());
+	}
+
+	private AboutPageOptions getAboutPageOptions() {
+		return new AboutPageOptions.Builder(getClass())
+				.buildPropertiesFile("build.properties")
+				.copyrightPropertiesFile("copyright.properties")
+				.title("fenxlib.demo.about.title")
+				.intro("fenxlib.demo.about.intro")
+				.gist("fenxlib.demo.about.gist")
+				.additionalInfo("fenxlib.demo.about.additionalInfo")
+				.build();
 	}
 
 	private MenuBar menuBar() throws CoreException {
@@ -48,14 +73,8 @@ public class MyApplication extends Application {
 				.build();
 		menuBar.getMenus().add(fileMenu);
 
-		AboutPageOptions aboutPageOptions = new AboutPageOptions.Builder(getClass())
-				.buildPropertiesFile("build.properties")
-				.copyrightPropertiesFile("copyright.properties")
-				.title("fenxlib.demo.about.title")
-				.intro("fenxlib.demo.about.intro")
-				.gist("fenxlib.demo.about.gist")
-				.additionalInfo("fenxlib.demo.about.additionalInfo")
-				.build();
+		AboutPageOptions aboutPageOptions = getAboutPageOptions();
+
 		Menu helpMenu = new MenuBuilder()
 				.name("fenxlib.demo.menu.label.help")
 				.menuSection(new AboutMenuSection(aboutPageOptions))

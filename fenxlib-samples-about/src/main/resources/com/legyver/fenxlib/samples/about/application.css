@@ -41,3 +41,11 @@
     -fx-font-weight: BOLD;
     -fx-padding: 0.7em 0.8em;
 }
+
+.about-blurb {
+    -fx-text-fill: #03A9F4;
+}
+
+.open-source-tagline {
+    -fx-text-fill: #7064e8;
+}

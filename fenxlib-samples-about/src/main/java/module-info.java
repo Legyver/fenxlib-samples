@@ -4,6 +4,7 @@ module com.legyver.fenxlib.samples.about {
 	requires com.legyver.fenxlib.widgets.about;
 	requires javafx.graphics;
 	requires javafx.controls;
+    requires org.scenicview.scenicview;
 
 	exports com.legyver.fenxlib.samples.about to javafx.graphics;
 	opens com.legyver.fenxlib.samples.about;
